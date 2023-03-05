@@ -11,24 +11,42 @@ class App extends Component {
     this.state = {
       name: 'React',
       show: false,
-      record: []
+      record: [],
+      records: [],
     };
   }
   render() {
     return (
       <>
-        <h1>Hii</h1>
+        <h1>Axios</h1>
         <button onClick={this.get}>Get</button>
         <button onClick={this.post}>Post</button>
+        {this.state.record?.title}
+        {this.state.records.map((x) => (
+          <div>{x.title}</div>
+        ))}
       </>
     );
   }
 
   get = () => {
-    axios.get('/posts')
-    .then(result=>{
-      this.setState({records: result.data});
-    })
+    axios.get('/posts').then((result) => {
+      this.setState({ records: result.data });
+      console.log(this.state.records);
+    });
+  };
+
+  post = () => {
+    let payload = {
+      title: 'alex',
+      body: 'therila',
+      userId: 1,
+    };
+    axios.post('/posts', payload).then((result) => {
+      console.log(result.data, 'post');
+      this.setState({ record: result.data });
+      console.log(this.state.record);
+    });
   };
 }
 export default App;
